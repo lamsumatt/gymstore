@@ -15,6 +15,12 @@ class ProvinceRepository extends BaseRepository implements ProvinceRepositoryInt
         Province $model
     )
     {
+        
         $this ->model = $model;
+    }
+ 
+    public function findById(int $modelId, array $columns = ["*"], array $relation = [])
+    {
+        return $this->model->select($columns)->with($relation)->findOrFail($modelId);
     }
 }

@@ -2,9 +2,15 @@
 
 namespace App\Services;
 
+use App\Repositories\BaseRepository;
 use App\Services\Interfaces\UserServiceInterface;
-use App\Models\User;
 use App\Repositories\Interfaces\UserRepositoryInterface as UserRepository;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Hash;
+use Exception;
+
 /**
  * Class UserService
  * @package App\Services
@@ -12,11 +18,79 @@ use App\Repositories\Interfaces\UserRepositoryInterface as UserRepository;
 class UserService implements UserServiceInterface
 {
     protected $userRepository;
-    public function __construct(UserRepository $userRepository){
+
+    public function __construct(UserRepository $userRepository)
+    {
         $this->userRepository = $userRepository;
     }
-    public function paginate(){
-        $user = $this->userRepository->getAllPaginate();
-        return $user;
+
+
+
+    public function paginate($request)
+    {
+        $condition['keyword'] = addslashes($request->input('keyword'));
+        $perpage = $request->integer('perpage');
+        $users = $this->userRepository->pagination($this->paginateSelect(), $condition, [], ['path' => 'user/index'], $perpage);
+        return $users;
+    }
+
+    public function create($request)
+    {
+        DB::beginTransaction();
+        try {
+            $payload = $request->except('_token', 'send', 're_password');
+            $payload['birthday'] = $this->convertBirthdayDate($payload['birthday']);
+            $payload['password'] = Hash::make($payload['password']);
+            
+            $this->userRepository->create($payload);
+
+            DB::commit();
+            return true;
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::error('User creation failed: ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function update($id, $request)
+    {
+        DB::beginTransaction();
+        try {
+            $payload = $request->except('_token', 'send');
+            $payload['birthday'] = $this->convertBirthdayDate($payload['birthday']);
+            
+            $this->userRepository->update($id, $payload);
+
+            DB::commit();
+            return true;
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::error('User update failed: ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    private function convertBirthdayDate($birthday = '')
+    {
+        $carbonDate = Carbon::createFromFormat('Y-m-d', $birthday);
+        return $carbonDate->format('Y-m-d H:i:s');
+    }
+
+    public function destroy($id){
+        DB::beginTransaction();
+        try {
+            $user = $this->userRepository->delete($id);
+            DB::commit();
+            return true;
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::error('User update failed: ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    private function paginateSelect(){
+        return ['id', 'name', 'email', 'address', 'phone', 'publish'];
     }
 }

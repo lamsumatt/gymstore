@@ -2,25 +2,66 @@
 
 namespace App\Repositories;
 
-
 use App\Repositories\Interfaces\BaseRepositoryInterface;
-use App\Models\Base;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class UserService
- * @package App\Services
- */
 class BaseRepository implements BaseRepositoryInterface
 {
     protected $model;
+
     public function __construct(Model $model)
     {
         $this->model = $model;
     }
 
+    public function create(array $payload = []){
+        $model = $this->model->create($payload);
+        return $model->fresh();
+    }
+
+    public function update(int $id = 0,  array $payload = []){
+        $model = $this -> findById($id);
+        return  $model->update($payload);
+    }
+
+    public function delete(int $id = 0){
+        $model = $this -> findById($id);
+        return $model->delete();
+    }
+
+    public function forceDelete(int $id = 0){
+        return $this -> findById($id)->forceDelete();
+    }
+
+    public function pagination(
+        array $column = ['*'], 
+        array $condition = [],
+        array $join=[], 
+        array $extend = [],
+        int $perpage = 1,){
+        $query = $this->model->select($column)->where($condition);
+        if(!empty($join)){
+            $query->join(...$join);
+        }
+        return $query->paginate($perpage);
+    }
+    
     public function all()
     {
         return $this->model->all();
     }
+/**
+     * Find a model by its ID.
+     *
+     * @param int $modelId The ID of the model to find.
+     * @param array $columns An optional array of columns to select. Defaults to ["*"].
+     * @param array $relation An optional array of relations to eager load. Defaults to [].
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException If the model is not found.
+     * @return \Illuminate\Database\Eloquent\Model The found model.
+     */
+    public function findById(int $modelId, array $columns = ["*"], array $relation = [])
+    {
+        return $this->model->select($columns)->with($relation)->findOrFail($modelId);
+    }
 }
+

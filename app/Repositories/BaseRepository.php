@@ -24,6 +24,8 @@ class BaseRepository implements BaseRepositoryInterface
         return  $model->update($payload);
     }
 
+  
+
     public function delete(int $id = 0){
         $model = $this -> findById($id);
         return $model->delete();
@@ -50,15 +52,7 @@ class BaseRepository implements BaseRepositoryInterface
     {
         return $this->model->all();
     }
-/**
-     * Find a model by its ID.
-     *
-     * @param int $modelId The ID of the model to find.
-     * @param array $columns An optional array of columns to select. Defaults to ["*"].
-     * @param array $relation An optional array of relations to eager load. Defaults to [].
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException If the model is not found.
-     * @return \Illuminate\Database\Eloquent\Model The found model.
-     */
+
     public function findById(int $modelId, array $columns = ["*"], array $relation = [])
     {
         return $this->model->select($columns)->with($relation)->findOrFail($modelId);

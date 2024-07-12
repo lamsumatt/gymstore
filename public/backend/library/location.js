@@ -7,13 +7,13 @@
         $(document).on('change', '.location', function () {
             let _this = $(this);
             let option = {
-                'data' :{
+                'data': {
                     'location_id': _this.val(),
                 },
-                'target' : _this.attr('data-target')
+                'target': _this.attr('data-target')
             }
             ht.sendDataTogetLocation(option);
-           
+
         });
     };
     ht.sendDataTogetLocation = (option) => {
@@ -23,16 +23,16 @@
             data: option,
             dataType: 'json',
             success: function (res) {
-                $('.'+option.target).html(res.html);
+                $('.' + option.target).html(res.html);
 
-                if(district_id != '' && option.target == 'districts'){
+                if (district_id != '' && option.target == 'districts') {
                     $(".district").val(district_id).trigger('change');
                 }
 
-                if(ward_id != '' && option.target == 'wards'){
+                if (ward_id != '' && option.target == 'wards') {
                     $(".wards").val(ward_id).trigger('change');
                 }
-                
+
             },
             error: function (jqxhr, textStatus, errorThrown) {
                 console.log('Error: ' + textStatus + ' ' + errorThrown); // Xử lý lỗi nếu có
@@ -41,7 +41,7 @@
     };
 
     ht.loadCity = () => {
-        if(province_id != ''){
+        if (province_id != '') {
             $(".province").val(province_id).trigger('change');
         }
     }

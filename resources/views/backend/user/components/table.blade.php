@@ -2,7 +2,7 @@
     <thead>
     <tr>
         <th>
-            <input type="checkbox" id="checkAll" class="input-checkbox">
+            <input type="checkbox" id="checkAll" class="input-checkbox checked">
         </th>
         <th>Họ tên</th>
         <th>Email</th>
@@ -17,15 +17,16 @@
         @foreach($users as $user)
         <tr>
             <td>
-                <input type="checkbox" class="input-checkbox checkBoxItem">
+                <input type="checkbox" value="{{ $user->id  }}"  class="input-checkbox checked checkBoxItem">
             </td>
             <td>{{$user->name}}</td>
             <td>{{$user->email}}</td>
             <td>{{$user->phone}}</td>
             <td>{{$user->address}}</td>
-            <td class="text-center">
+            <td class="text-center js-switch-{{ $user->id }}">
                 <input type="checkbox" value="{{ $user->publish }}" data-model = "User"
-                 {{ $user->publish == 1 ? 'checked' : '' }} data-modelId = "{{ $user->id }}" class="js-switch status" data-field = 'publish' />
+                 {{ $user->publish == 1 ? 'checked' : '' }} data-modelId = "{{ $user->id }}" class="js-switch status " 
+                 data-field = 'publish' />
             </td>
             <td class="text-center">
                 <a href="{{ route('user.edit', $user->id) }}" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i></a>

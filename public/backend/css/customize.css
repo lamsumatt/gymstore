@@ -140,3 +140,12 @@ table strong{
 .ml10{
     margin-left: 10px;
 }
+
+.active-bg{
+    background: #ffc !important;
+}
+
+#checkAll, .checkBoxItem{
+    width: 15px;
+    height: 15px;
+}

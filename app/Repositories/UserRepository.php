@@ -49,4 +49,7 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
         return $this->model->select($columns)->with($relation)->findOrFail($modelId);
     }
     
+    public function updateByWhereIn(string $whereInField = '', array $whereIn = [], array $payload = []){
+        return $this->model->whereIn($whereInField, $whereIn)->update($payload);
+    }
 }

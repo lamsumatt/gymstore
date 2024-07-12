@@ -35,10 +35,6 @@ class LocationController extends Controller
             $html = $this->renderHtml($district->wards, '[Chọn Phường/Xã]');
 
         }
-
-
-
-
         $response = [
             'html' => $html
         ];

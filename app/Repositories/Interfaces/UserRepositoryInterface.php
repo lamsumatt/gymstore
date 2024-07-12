@@ -19,4 +19,6 @@ interface UserRepositoryInterface
     array $join=[], 
     array $extend = [],
     int $perpage = 1,);
+    public function updateByWhereIn(string $whereInField = '', array $whereIn = [], array $payload = []);
+
 }

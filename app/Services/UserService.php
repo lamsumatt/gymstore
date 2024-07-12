@@ -93,4 +93,34 @@ class UserService implements UserServiceInterface
     private function paginateSelect(){
         return ['id', 'name', 'email', 'address', 'phone', 'publish'];
     }
+
+    public function updateStatus($post = []){
+        DB::beginTransaction();
+        try {
+            $payload[$post['field']] = (($post['value'] == 1) ? 0 : 1);
+            $this->userRepository->update($post['modelId'], $payload);
+
+            DB::commit();
+            return true;
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::error('User update failed: ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function updateStatusAll($post = []){
+        DB::beginTransaction();
+        try {
+            $payload[$post['field']] =$post['value'] ;
+            $flag =  $this->userRepository->updateByWhereIn('id', $post['id'], $payload);
+
+            DB::commit();
+            return true;
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::error('User update failed: ' . $e->getMessage());
+            return false;
+        }
+    }
 }

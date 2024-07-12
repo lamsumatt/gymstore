@@ -3,11 +3,12 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\AuthController;
 use App\Http\Controllers\Backend\DashboardController;
+use App\Http\Controllers\Ajax\DashboardController as AjaxDashboardController;
 use App\Http\Middleware\AuthenticateMiddleware;
 use App\Http\Middleware\LoginMiddleware;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Ajax\LocationController;
-
+use Symfony\Component\HttpKernel\DataCollector\AjaxDataCollector;
 
 Route::get('/', function () {
     return view('welcome');
@@ -16,7 +17,7 @@ Route::get('/', function () {
 // backend route
 Route::get('dashboard/index', [DashboardController::class, 'index'])->name('dashboard.index')->middleware([AuthenticateMiddleware::class]);
 
-// USER
+// BACKEND USER 
 Route::group(['prefix' => 'user'], function () {
     Route::get('index', [UserController::class, 'index'])->name('user.index')->middleware([AuthenticateMiddleware::class]);
     Route::get('create', [UserController::class, 'create'])->name('user.create')->middleware([AuthenticateMiddleware::class]);
@@ -25,12 +26,12 @@ Route::group(['prefix' => 'user'], function () {
     Route::post('{id}/update', [UserController::class, 'update'])->name('user.update')->where('id', '[0-9]+')->middleware([AuthenticateMiddleware::class]);
     Route::get('{id}/delete', [UserController::class, 'delete'])->name('user.delete')->where('id', '[0-9]+')->middleware([AuthenticateMiddleware::class]);
     Route::delete('{id}/destroy', [UserController::class, 'destroy'])->name('user.destroy')->where('id', '[0-9]+')->middleware([AuthenticateMiddleware::class]);
-
 });
 
 // AJAX
 Route::get('ajax/location/getLocation', [LocationController::class, 'getLocation'])->middleware([AuthenticateMiddleware::class])->name('api.location');
-Route::post('ajax/dashboard/changeStatus', [DashboardController::class, 'changeStatus'])->middleware([AuthenticateMiddleware::class])->name('ajax.dashboard.changeStatus');
+Route::post('ajax/dashboard/changeStatus', [AjaxDashboardController::class, 'changeStatus'])->middleware([AuthenticateMiddleware::class])->name('ajax.dashboard.changeStatus');
+Route::post('ajax/dashboard/changeStatusAll', [AjaxDashboardController::class, 'changeStatusAll'])->middleware([AuthenticateMiddleware::class])->name('ajax.dashboard.changeStatusAll');
 
 
 // AUTH

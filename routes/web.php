@@ -9,6 +9,7 @@ use App\Http\Middleware\LoginMiddleware;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Ajax\LocationController;
 use Symfony\Component\HttpKernel\DataCollector\AjaxDataCollector;
+use App\Http\Controllers\Backend\UserCatalogueController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -28,6 +29,15 @@ Route::group(['prefix' => 'user'], function () {
     Route::delete('{id}/destroy', [UserController::class, 'destroy'])->name('user.destroy')->where('id', '[0-9]+')->middleware([AuthenticateMiddleware::class]);
 });
 
+Route::group(['prefix' => 'user/catalogue'], function () {
+    Route::get('index', [UserCatalogueController::class, 'index'])->name('user.catalogue.index')->middleware([AuthenticateMiddleware::class]);
+    Route::get('create', [UserCatalogueController::class, 'create'])->name('user.catalogue.create')->middleware([AuthenticateMiddleware::class]);
+    Route::post('store', [UserCatalogueController::class, 'store'])->name('user.catalogue.store')->middleware([AuthenticateMiddleware::class]);
+    Route::get('{id}/edit', [UserCatalogueController::class, 'edit'])->name('user.catalogue.edit')->where('id', '[0-9]+')->middleware([AuthenticateMiddleware::class]);
+    Route::post('{id}/update', [UserCatalogueController::class, 'update'])->name('user.catalogue.update')->where('id', '[0-9]+')->middleware([AuthenticateMiddleware::class]);
+    Route::get('{id}/delete', [UserCatalogueController::class, 'delete'])->name('user.catalogue.delete')->where('id', '[0-9]+')->middleware([AuthenticateMiddleware::class]);
+    Route::delete('{id}/destroy', [UserCatalogueController::class, 'destroy'])->name('user.catalogue.destroy')->where('id', '[0-9]+')->middleware([AuthenticateMiddleware::class]);
+});
 // AJAX
 Route::get('ajax/location/getLocation', [LocationController::class, 'getLocation'])->middleware([AuthenticateMiddleware::class])->name('api.location');
 Route::post('ajax/dashboard/changeStatus', [AjaxDashboardController::class, 'changeStatus'])->middleware([AuthenticateMiddleware::class])->name('ajax.dashboard.changeStatus');

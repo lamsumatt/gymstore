@@ -5,15 +5,15 @@
             <div class="ibox-title">
                 <h5>{{ $config['seo']['index']['table'] }}</h5>
             {{-- toolbox --}}
-                @include('backend.user.components.toolbox')
+                @include('backend.user.catalogue.components.toolbox')
             </div>
             <div class="ibox-content">
             {{-- start filter --}}
-                @include('backend.user.components.filter')
+                @include('backend.user.catalogue.components.filter')
             {{-- end filter --}}
 
             {{-- start table --}}
-                @include('backend.user.components.table')
+                @include('backend.user.catalogue.components.table')
             {{-- end table --}}
 
             </div>

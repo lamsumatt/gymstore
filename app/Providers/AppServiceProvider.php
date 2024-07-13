@@ -9,7 +9,9 @@ class AppServiceProvider extends ServiceProvider
 {
     public $bindings = [
         'App\Services\Interfaces\UserServiceInterface' => 'App\Services\UserService',
+        'App\Services\Interfaces\UserCatalogueRepositoryInterface' => 'App\Services\UserCatalogueService',
         'App\Repositories\Interfaces\UserRepositoryInterface' => 'App\Repositories\UserRepository',
+        'App\Repositories\Interfaces\UserCatalogueRepositoryInterface' => 'App\Repositories\UserCatalogueRepository',
         'App\Repositories\Interfaces\ProvinceRepositoryInterface' => 'App\Repositories\ProvinceRepository',
         'App\Repositories\Interfaces\DistrictRepositoryInterface' => 'App\Repositories\DistrictRepository',
     ];

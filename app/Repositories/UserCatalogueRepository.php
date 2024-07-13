@@ -1,18 +1,18 @@
 <?php
 
 namespace App\Repositories;
-use App\Repositories\Interfaces\UserRepositoryInterface;
-use App\Models\User;
+use App\Repositories\Interfaces\UserCatalogueRepositoryInterface;
+use App\Models\UserCatalogue;
 use App\Repositories\BaseRepository;
 /**
  * Class UserService
  * @package App\Services
  */
-class UserRepository extends BaseRepository implements UserRepositoryInterface
+class UserCatalogueRepository extends BaseRepository implements UserCatalogueRepositoryInterface
 {
     protected $model;
     public function __construct(
-        User $model
+        UserCatalogue $model
     )
     {
         $this ->model = $model;

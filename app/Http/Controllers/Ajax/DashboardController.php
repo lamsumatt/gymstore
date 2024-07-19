@@ -19,9 +19,7 @@ class DashboardController extends Controller
 
         if (class_exists($serviceInterfaceNamespace)) {
             $serviceInstance = app($serviceInterfaceNamespace);
-        } else {
-            return response()->json(['flag' => false, 'message' => 'Service class does not exist']);
-        }
+        } 
 
         $flag = $serviceInstance->updateStatus($post);
         return response()->json(['flag' => $flag]);

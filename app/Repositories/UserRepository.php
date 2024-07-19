@@ -17,10 +17,7 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
     {
         $this ->model = $model;
     }
-    
-    // public function getAllPaginate(){
-    //     return  User::paginate(10);
-    // }
+ 
     public function delete(int $id = 0){
         $model = $this -> findById($id);
         return $model->delete();

@@ -91,7 +91,8 @@
 
     ht.changeStatusAll = () => {
         if ($('.changeStatusAll').length) {
-            $(document).on('change', '.changeStatusAll', function (e) {
+            $('.ibox-tools').on('click', '.changeStatusAll', function (e) {
+                e.preventDefault(); // prevent default link behavior
                 let _this = $(this);
                 let id = [];
     
@@ -115,13 +116,12 @@
                     data: option,
                     dataType: 'json',
                     success: function (res) {
-                        
-                        if(res.flag ==true){
+                        if(res.flag == true){
                             let cssActive1 = 'background-color: rgb(26, 179, 148); border-color: rgb(26, 179, 148); box-shadow: rgb(26, 179, 148) 0px 0px 0px 16px inset; transition: border 0.4s ease 0s, box-shadow 0.4s ease 0s, background-color 1.2s ease 0s;'
                             let cssActive2 = 'left: 20px; background-color: rgb(255, 255, 255); transition: background-color 0.4s ease 0s, left 0.2s ease 0s;'
                             let cssUnactive = 'background-color: rgb(26, 179, 148); border-color: rgb(26, 179, 148); box-shadow: rgb(26, 179, 148) 0px 0px 0px 16px inset; transition: border 0.4s ease 0s, box-shadow 0.4s ease 0s, background-color 1.2s ease 0s;'
                             let cssUnactive2 = 'left: 20px; background-color: rgb(255, 255, 255); transition: background-color 0.4s ease 0s, left 0.2s ease 0s;'
-                        }                                                                            
+                                                                                                      
                         for(let i=0; i<id.length; i++){
                             if(option.value==1){
                                 $('.js-switch-'+id[i]).find('span.switchery').attr
@@ -130,14 +130,13 @@
                                 $('.js-switch-'+id[i]).find('span.switchery').attr
                                 ('style', cssUnactive).find('small').attr('style', cssUnactive2);
                             }
-                       
+                        }
                         }                                                       
                     },
                     error: function (jqxhr, textStatus, errorThrown) {
                         console.log('Error: ' + textStatus + ' ' + errorThrown); // Xử lý lỗi nếu có
                     }
                 });
-                e.priventDefault();
             });
         }
     }

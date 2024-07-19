@@ -99,7 +99,7 @@ class UserService implements UserServiceInterface
         DB::beginTransaction();
         try {
             $payload[$post['field']] = (($post['value'] == 1) ? 0 : 1);
-            $this->userRepository->update($post['modelId'], $payload);
+            $user =  $this->userRepository->update($post['modelId'], $payload);
 
             DB::commit();
             return true;

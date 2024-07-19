@@ -12,8 +12,8 @@ class UserCatalogue extends Model
     use HasFactory,  Notifiable, SoftDeletes;
     protected $fillable = [
         'name',
-        
-        'publish'
+        'publish',
+        'description'
     ];
     protected $table = 'user_catalogues';
 }

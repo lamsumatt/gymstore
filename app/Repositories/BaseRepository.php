@@ -40,12 +40,12 @@ class BaseRepository implements BaseRepositoryInterface
         array $condition = [],
         array $join=[], 
         array $extend = [],
-        int $perpage = 1,){
+        int $perpage = 1){
         $query = $this->model->select($column)->where($condition);
-        if(!empty($join)){
-            $query->join(...$join);
-        }
-        return $query->paginate($perpage);
+        // if(!empty($join)){
+        //     $query->join(...$join);
+        // }
+        // return $query->paginate($perpage);
     }
     
     public function all()

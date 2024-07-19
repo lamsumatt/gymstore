@@ -2,7 +2,7 @@
     <thead>
     <tr>
         <th>
-            <input type="checkbox" id="checkAll" class="input-checkbox checked">
+            <input type="checkbox" id="checkAll" class="input-checkbox">
         </th>
         <th>Họ tên</th>
         <th>Email</th>
@@ -17,7 +17,7 @@
         @foreach($users as $user)
         <tr>
             <td>
-                <input type="checkbox" value="{{ $user->id  }}"  class="input-checkbox checked checkBoxItem">
+                <input type="checkbox" value="{{ $user->id  }}"  class="input-checkbox  checkBoxItem">
             </td>
             <td>{{$user->name}}</td>
             <td>{{$user->email}}</td>

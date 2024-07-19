@@ -26,10 +26,7 @@
                         @endforeach
              
                     </select>
-                    <select name="user_catalogue_id" class="form-control mr10 setupSelect2 ">
-                        <option value="0" selected="selected">Chọn nhóm thành viên</option>
-                        <option value="1">Quản trị viên</option>
-                    </select>
+                   
                     <div class="uk-search uk-flex uk-flex-middle mr10 ml10">
                         <div class="input-group">
                             <input type="text" value="{{ request('keyword') ?: old('keyword') }}" name="keyword" class="form-control" placeholder="Nhập từ khóa ...">
@@ -38,7 +35,7 @@
                             </span>
                         </div>
                     </div>
-                    <a href="{{ route('user.create') }}" class="btn btn-danger"><i class="fa fa-plus mr5"></i>Thêm mới thành viên</a>
+                    <a href="{{ route('user.catalogue.create') }}" class="btn btn-danger"><i class="fa fa-plus mr5"></i>Thêm mới nhóm thành viên</a>
                 </div>
             </div>
            

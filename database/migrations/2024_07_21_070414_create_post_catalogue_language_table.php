@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('post_catalogue_translate', function (Blueprint $table) {
+        Schema::create('post_catalogue_language', function (Blueprint $table) {
             $table->unsignedBigInteger('post_catalogue_id');
             $table->unsignedBigInteger('language_id');
             $table->foreign('post_catalogue_id')->references('id')->on('post_catalogues')->onDelete('cascade');
@@ -22,7 +22,6 @@ return new class extends Migration
             $table->string('meta_title');
             $table->string('meta_keyword');
             $table->text('meta_description');
-
         });
     }
 
@@ -31,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('post_catalogue_translate');
+        Schema::dropIfExists('post_catalogue_language');
     }
 };

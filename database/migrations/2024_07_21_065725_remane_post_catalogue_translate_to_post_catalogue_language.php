@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->foreign('user_catalogue_id')->references('id')->on('user_catalogues'); 
+        Schema::table('post_catalogue_translate', function (Blueprint $table) {
+            Schema::rename('post_catalogue_translate', 'post_catalogue_language');
         });
     }
 
@@ -21,8 +21,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropForeign(['user_catalogue_id']);
+        Schema::table('post_catalogue_translate', function (Blueprint $table) {
+            Schema::rename('post_catalogue_translate', 'post_catalogue_language');
+            
         });
     }
 };

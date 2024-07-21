@@ -11,11 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('languages', function (Blueprint $table) {
+        Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 50);
-            $table->string('canonical', 10)->unique();
-            $table ->string('image');
+            $table->integer('post_catalogue_id')->default(0);
+            $table->string('image')->nullable();
+            $table->string('icon')->nullable();
+            $table->text('album')->nullable();
+            $table->tinyInteger('publish')->default(1);
+            $table->integer('order')->default(0);
             $table->unsignedBigInteger('user_id'); 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamp('deleted_at')->nullable();
@@ -28,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('languages');
+        Schema::dropIfExists('posts');
     }
 };

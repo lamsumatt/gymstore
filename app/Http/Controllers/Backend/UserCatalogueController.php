@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Services\UserCatalogueService as UserService;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreUserCatalogueRequest;
-use App\Repositories\Interfaces\UserRepositoryInterface as UserCatalogueRepository;
+use App\Repositories\Interfaces\UserCatalogueRepositoryInterface as UserCatalogueRepository;
 
 class UserCatalogueController extends Controller
 {
@@ -16,6 +16,7 @@ class UserCatalogueController extends Controller
     public function __construct(UserService $userCatalogueService, UserCatalogueRepository $userCatalogueRepository)
     {
         $this->userCatalogueService = $userCatalogueService;
+        $this->userCatalogueRepository = $userCatalogueRepository;
     }
 
     public function index(Request $request)
@@ -54,41 +55,32 @@ class UserCatalogueController extends Controller
     }
 
     public function edit($id){
-        $user = $this->userCatalogueService->findById($id);
-        $config = [
-            'css' => [
-                'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css'
-            ],
-            'js' => [
-                'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js',
-                'backend/library/location.js',
-            ]
-        ];
-        $config['seo'] = config('apps.userCatalogue');
+        $userCatalogues = $this->userCatalogueRepository->findById($id);
+        $config['seo'] = config('apps.UserCatalogue');
         $config['method'] = 'edit';
         $template = 'backend.user.catalogue.store';
         $title = $config['seo']['create']['title']; // Define the title here
-        return view('backend.dashboard.layout', compact('template', 'config', 'title', 'provinces', 'user'));
+        return view('backend.dashboard.layout', compact('template', 'config',  'userCatalogues'));
 
     }
     
-    public function update( $id, UpdateUserRequest $request){
-        if($this->userService->update( $id,$request)){
+    public function update( $id, StoreUserCatalogueRequest $request){
+        if($this->userCatalogueService->update( $id,$request)){
             return redirect()->route('user.catalogue.index')->with('success', 'Cập nhật người dùng thành công');
         }
         return redirect()->route('user.catalogue.index')->with('error', 'Cập nhật người dùng thất bại');
     }
 
     public function delete($id){
-        $user = $this->userRepository->findById($id);
-        $config['seo'] = config('apps.userCatalogue');
+        $userCatalogues = $this->userCatalogueRepository->findById($id);
+        $config['seo'] = config('apps.UserCatalogue');
         $template = 'backend.user.catalogue.delete';
         
-        return view('backend.dashboard.layout', compact( 'template','config',  'user'));
+        return view('backend.dashboard.layout', compact( 'template','config',  'userCata'));
     }
 
     public function destroy($id){
-        if($this->userService->destroy($id)){
+        if($this->userCatalogueService->destroy($id)){
             return redirect()->route('user.catalogue.index')->with('success', 'Xóa người dùng thành công');
         }
         return redirect()->route('user.catalogue.index')->with('error', 'Xóa người dùng thất bại');

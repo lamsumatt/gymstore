@@ -40,13 +40,30 @@ class BaseRepository implements BaseRepositoryInterface
         array $condition = [],
         array $join=[], 
         array $extend = [],
-        int $perpage = 1){
-        $query = $this->model->select($column)->where($condition);
-        // if(!empty($join)){
-        //     $query->join(...$join);
-        // }
-        // return $query->paginate($perpage);
-    }
+        int $perpage = 1,
+        array $relations = []
+        ){
+        $query = $this->model->select($column)->where(function($query) use ($condition){
+            if(isset($condition['keyword']) && !empty($condition['keyword'])){
+                $query->where('name','like','%'.$condition['keyword'].'%');
+            }
+            if(isset($condition['publish'])  && $condition['publish'] != 0){
+                $query->where('publish','=', $condition['publish']);
+            }
+            return $query;
+        });
+
+        if(isset($relations) && !empty($relations)){
+            foreach($relations as $relation){
+                $query->withCount($relation);
+            }
+        }
+
+            if(!empty($join)){
+            $query->join(...$join);
+            }
+            return $query->paginate($perpage)->withQueryString()->withPath(env('APP_URL').$extend['path']);
+            }
     
     public function all()
     {

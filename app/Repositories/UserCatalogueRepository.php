@@ -13,5 +13,16 @@ class UserCatalogueRepository extends BaseRepository implements UserCatalogueRep
     {
         $this->model = $model;
     }
+    public function findById(int $modelId, array $columns = ["*"], array $relation = [])
+    {
+        return $this->model->select($columns)->with($relation)->findOrFail($modelId);
+    }
     
+    public function updateByWhereIn(string $whereInField = '', array $whereIn = [], array $payload = []){
+        return $this->model->whereIn($whereInField, $whereIn)->update($payload);
+    }
+    public function delete(int $id = 0){
+        $model = $this -> findById($id);
+        return $model->delete();
+    }
 }

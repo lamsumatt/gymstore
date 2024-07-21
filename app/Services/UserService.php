@@ -92,13 +92,13 @@ class UserService implements UserServiceInterface
     }
 
     private function paginateSelect(){
-        return ['id', 'name', 'email', 'address', 'phone', 'publish'];
+        return ['id', 'name', 'email', 'address', 'phone', 'publish', 'user_catalogue_id'];
     }
 
     public function updateStatus($post = []){
         DB::beginTransaction();
         try {
-            $payload[$post['field']] = (($post['value'] == 1) ? 0 : 1);
+            $payload[$post['field']] = (($post['value'] == 1) ? 2 : 1);
             $user =  $this->userRepository->update($post['modelId'], $payload);
 
             DB::commit();

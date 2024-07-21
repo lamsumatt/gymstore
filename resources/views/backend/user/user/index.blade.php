@@ -5,7 +5,7 @@
             <div class="ibox-title">
                 <h5>{{ $config['seo']['index']['table'] }}</h5>
             {{-- toolbox --}}
-                @include('backend.user.user.components.toolbox')
+                @include('backend.dashboard.components.toolbox', ['model' => 'User'])
             </div>
             <div class="ibox-content">
             {{-- start filter --}}

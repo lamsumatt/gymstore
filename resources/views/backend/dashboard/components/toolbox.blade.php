@@ -6,8 +6,8 @@
         <i class="fa fa-wrench"></i>
     </a>
     <ul class="dropdown-menu dropdown-user">
-        <li><a href="#" class="changeStatusAll" data-value="1" data-field="publish" data-model="User" >Publish toàn bộ</a></li>
-        <li><a href="#" class="changeStatusAll" data-value="0" data-field="publish" data-model="User" >UnPublish toàn bộ</a></li>
+        <li><a href="#" class="changeStatusAll" data-value="2" data-field="publish" data-model="{{ $model }}" >Xuất bản</a></li>
+        <li><a href="#" class="changeStatusAll" data-value="1" data-field="publish" data-model="{{ $model }}" >Hủy xuất bản </a></li>
     </ul>
     <a class="close-link">
         <i class="fa fa-times"></i>

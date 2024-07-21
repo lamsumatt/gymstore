@@ -10,7 +10,7 @@
     </div>
 @endif
 @php
-    $url = ($config['method']=='create') ? route('user.catalogue.store') : route('user.catalogue.update', $userCatalogue->id);
+    $url = ($config['method']=='create') ? route('user.catalogue.store') : route('user.catalogue.update', $userCatalogues->id);
 @endphp
 <form action="{{ $url }}" method="POST" class="box">
     @csrf
@@ -34,7 +34,7 @@
                                     <label for="" class="control-label text-left"> Tên nhóm 
                                         <span class="text-danger">(*)</span>
                                     </label>
-                                    <input type="text" value="{{ old('name', ($userCatalogue->name) ?? '') }}" name="name" class="form-control" autocomplete="off" placeholder="">
+                                    <input type="text" value="{{ old('name', ($userCatalogues->name) ?? '') }}" name="name" class="form-control" autocomplete="off" placeholder="">
                                 </div>
                                 
                             </div>
@@ -43,12 +43,10 @@
                                     <label for="" class="control-label text-left">Ghi chú
                                         
                                     </label>
-                                    <input type="text" value="{{ old('description', ($userCatalogue->name) ?? '') }}" name="description" class="form-control" autocomplete="off" placeholder="">
+                                    <input type="text" value="{{ old('description', ($userCatalogues->name) ?? '') }}" name="description" class="form-control" autocomplete="off" placeholder="">
                                 </div>
                             </div>
-                        </div>
-                     
-                        
+                        </div>                  
                     </div>
                 </div>
             </div>

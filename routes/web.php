@@ -8,8 +8,8 @@ use App\Http\Middleware\AuthenticateMiddleware;
 use App\Http\Middleware\LoginMiddleware;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Ajax\LocationController;
-use Symfony\Component\HttpKernel\DataCollector\AjaxDataCollector;
 use App\Http\Controllers\Backend\UserCatalogueController;
+use App\Http\Controllers\Backend\LanguageController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -38,6 +38,17 @@ Route::group(['prefix' => 'user/catalogue'], function () {
     Route::get('{id}/delete', [UserCatalogueController::class, 'delete'])->name('user.catalogue.delete')->where('id', '[0-9]+')->middleware([AuthenticateMiddleware::class]);
     Route::delete('{id}/destroy', [UserCatalogueController::class, 'destroy'])->name('user.catalogue.destroy')->where('id', '[0-9]+')->middleware([AuthenticateMiddleware::class]);
 });
+
+Route::group(['prefix' => 'language'], function () {
+    Route::get('index', [LanguageController::class, 'index'])->name('language.index')->middleware([AuthenticateMiddleware::class]);
+    Route::get('create', [LanguageController::class, 'create'])->name('language.create')->middleware([AuthenticateMiddleware::class]);
+    Route::post('store', [LanguageController::class, 'store'])->name('language.store')->middleware([AuthenticateMiddleware::class]);
+    Route::get('{id}/edit', [LanguageController::class, 'edit'])->name('language.edit')->where('id', '[0-9]+')->middleware([AuthenticateMiddleware::class]);
+    Route::post('{id}/update', [LanguageController::class, 'update'])->name('language.update')->where('id', '[0-9]+')->middleware([AuthenticateMiddleware::class]);
+    Route::get('{id}/delete', [LanguageController::class, 'delete'])->name('language.delete')->where('id', '[0-9]+')->middleware([AuthenticateMiddleware::class]);
+    Route::delete('{id}/destroy', [LanguageController::class, 'destroy'])->name('language.destroy')->where('id', '[0-9]+')->middleware([AuthenticateMiddleware::class]);
+});
+
 // AJAX
 Route::get('ajax/location/getLocation', [LocationController::class, 'getLocation'])->middleware([AuthenticateMiddleware::class])->name('api.location');
 Route::post('ajax/dashboard/changeStatus', [AjaxDashboardController::class, 'changeStatus'])->middleware([AuthenticateMiddleware::class])->name('ajax.dashboard.changeStatus');

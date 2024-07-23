@@ -11,6 +11,6 @@ return [
         'title' => 'Thêm mới nhóm thành viên',
     ],
     'delete' => [
-        'title' => 'Xóa thành nhóm viên',
+        'title' => 'Xóa nhóm thành viên',
     ]
 ];

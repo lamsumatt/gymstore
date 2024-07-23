@@ -13,63 +13,91 @@ use App\Repositories\Interfaces\UserRepositoryInterface as UserRepository;
 class UserController extends Controller
 {
     protected $userService;
-    protected $proviceRepository;
+    protected $provinceRepository;
     protected $userRepository;
-    public function __construct( UserService $userService, ProvinceRepository $proviceRepository, UserRepository $userRepository)
+
+    public function __construct(UserService $userService, ProvinceRepository $provinceRepository, UserRepository $userRepository)
     {
         $this->userService = $userService;
-        $this->proviceRepository = $proviceRepository;
+        $this->provinceRepository = $provinceRepository;
         $this->userRepository = $userRepository;
     }
-    public function index( Request $request )
-{
-    $users = $this->userService->paginate($request);
-    $config = [
-        'js' => [
-            'backend/js/plugins/switchery/switchery.js',
-            'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js',
-        ],
-        'css' => [
-            'backend/css/plugins/switchery/switchery.css',
-            'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css'
-        ]
-    ];
-    $config['seo'] = config('apps.user');
-    $template = 'backend.user.user.index';
-    $title = $config['seo']['index']['title']; // Define the title here
-    return view('backend.dashboard.layout', compact('template', 'config', 'users', 'title'));
-}
 
-public function create()
-{
-    $provinces = $this->proviceRepository->all();
+    /**
+     * Display a listing of the users.
+     *
+     * @param Request $request
+     * @return \Illuminate\View\View
+     */
+    public function index(Request $request)
+    {
+        $users = $this->userService->paginate($request);
+        $config = [
+            'js' => [
+                'backend/js/plugins/switchery/switchery.js',
+                'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js',
+            ],
+            'css' => [
+                'backend/css/plugins/switchery/switchery.css',
+                'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css'
+            ]
+        ];
+        $config['seo'] = config('apps.user');
+        $template = 'backend.user.user.index';
+        $title = $config['seo']['index']['title']; // Define the title here
 
-    $config = [
-        'css' => [
-            'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css'
-        ],
-        'js' => [
-            'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js',
-            'backend/library/location.js',
-        ]
-    ];
-    $config['seo'] = config('apps.user');
-    $config['method'] = 'create';
-    $template = 'backend.user.user.store';
-    $title = $config['seo']['create']['title']; // Define the title here
-    return view('backend.dashboard.layout', compact('template', 'config', 'title', 'provinces'));
-}
-
-    public function store(StoreUserRequest $request){
-        if($this->userService->create($request)){
-            return redirect()->route('user.index')->with('success', 'Thêm mới người dùng thành công');
-        }
-        return redirect()->route('user.index')->with('error', 'Thêm mới người dùng thất bại');
+        return view('backend.dashboard.layout', compact('template', 'config', 'users', 'title'));
     }
 
-    public function edit($id){
+    /**
+     * Show the form for creating a new user.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function create()
+    {
+        $provinces = $this->provinceRepository->all();
+        $config = [
+            'css' => [
+                'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css'
+            ],
+            'js' => [
+                'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js',
+                'backend/library/location.js',
+            ]
+        ];
+        $config['seo'] = config('apps.user');
+        $config['method'] = 'create';
+        $template = 'backend.user.user.store';
+        $title = $config['seo']['create']['title']; // Define the title here
+
+        return view('backend.dashboard.layout', compact('template', 'config', 'title', 'provinces'));
+    }
+
+    /**
+     * Store a newly created user in storage.
+     *
+     * @param StoreUserRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function store(StoreUserRequest $request)
+    {
+        if ($this->userService->create($request)) {
+            return redirect()->route('user.index')->with('success', 'Thêm mới người dùng thành công');
+        }
+        return redirect()->route('user.index')->with('error', 'Thêm mới người dùng thất bại');
+    }
+
+    /**
+     * Show the form for editing the specified user.
+     *
+     * @param int $id
+     * @return \Illuminate\View\View
+     */
+    public function edit($id)
+    {
         $user = $this->userRepository->findById($id);
-        $provinces = $this->proviceRepository->all();
+        $provinces = $this->provinceRepository->all();
         $config = [
             'css' => [
                 'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css'
@@ -82,30 +110,52 @@ public function create()
         $config['seo'] = config('apps.user');
         $config['method'] = 'edit';
         $template = 'backend.user.user.store';
-        $title = $config['seo']['create']['title']; // Define the title here
-        return view('backend.dashboard.layout', compact('template', 'config', 'title', 'provinces', 'user'));
+      
 
+        return view('backend.dashboard.layout', compact('template', 'config',  'provinces', 'user'));
     }
 
-    public function update( $id, UpdateUserRequest $request){
-        if($this->userService->update( $id,$request)){
-            return redirect()->route('user.index')->with('success', 'Cập nhật người dùng thành công');
+    /**
+     * Update the specified user in storage.
+     *
+     * @param int $id
+     * @param UpdateUserRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update($id, UpdateUserRequest $request)
+    {
+        if ($this->userService->update($id, $request)) {
+            return redirect()->route('user.index')->with('success', 'Cập nhật người dùng thành công');
         }
-        return redirect()->route('user.index')->with('error', 'Cập nhật người dùng thất bại');
+        return redirect()->route('user.index')->with('error', 'Cập nhật người dùng thất bại');
     }
 
-    public function delete($id){
+    /**
+     * Show the form for confirming deletion of the specified user.
+     *
+     * @param int $id
+     * @return \Illuminate\View\View
+     */
+    public function delete($id)
+    {
         $user = $this->userRepository->findById($id);
         $config['seo'] = config('apps.user');
         $template = 'backend.user.user.delete';
-       
-        return view('backend.dashboard.layout', compact( 'template','config',  'user'));
+
+        return view('backend.dashboard.layout', compact('template', 'config', 'user'));
     }
 
-    public function destroy($id){
-        if($this->userService->destroy($id)){
-            return redirect()->route('user.index')->with('success', 'Xóa người dùng thành công');
+    /**
+     * Remove the specified user from storage.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function destroy($id)
+    {
+        if ($this->userService->destroy($id)) {
+            return redirect()->route('user.index')->with('success', 'Xóa người dùng thành công');
         }
-        return redirect()->route('user.index')->with('error', 'Xóa người dùng thất bại');
+        return redirect()->route('user.index')->with('error', 'Xóa người dùng thất bại');
     }
 }

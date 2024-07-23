@@ -24,7 +24,7 @@
             <td>{{$user->email}}</td>
             <td>{{$user->phone}}</td>
             <td>{{$user->address}}</td>
-            <td class="text-center">{{$user->user_catalogues->name}}</td>
+            <td class="text-center">{{ optional($user->user_catalogues)->name ?? 'N/A' }}</td>
             <td class="text-center js-switch-{{ $user->id }}">
                 <input type="checkbox" value="{{ $user->publish }}" data-model = "User"
                  {{ $user->publish == 2 ? 'checked' : '' }} data-modelId = "{{ $user->id }}" class="js-switch status " 

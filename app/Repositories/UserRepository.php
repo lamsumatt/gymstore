@@ -22,32 +22,43 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
         $model = $this -> findById($id);
         return $model->delete();
     }
-
     public function pagination(
         array $column = ['*'], 
         array $condition = [],
-        array $join=[], 
+        array $join = [], 
         array $extend = [],
         int $perpage = 1,
         array $relations = []
-        ){
-        $query = $this->model->select($column)->where(function($query) use ($condition){
-            if(isset($condition['keyword']) && !empty($condition['keyword'])){
-                $query->where('name','like','%'.$condition['keyword'].'%')
-                      ->orWhere('email','like','%'.$condition['keyword'].'%')
-                      ->orWhere('phone','like','%'.$condition['keyword'].'%')
-                      ->orWhere('address','like','%'.$condition['keyword'].'%');
+    ) {
+        $query = $this->model->select($column)
+            ->where(function($query) use ($condition) {
+                if (isset($condition['keyword']) && !empty($condition['keyword'])) {
+                    $keyword = '%' . $condition['keyword'] . '%';
+                    $query->where('name', 'like', $keyword)
+                          ->orWhere('email', 'like', $keyword)
+                          ->orWhere('phone', 'like', $keyword)
+                          ->orWhere('address', 'like', $keyword);
+                }
+                if (isset($condition['publish']) && $condition['publish'] != 0) {
+                    $query->where('publish', $condition['publish']);
+                }
+            })
+            ->with('user_catalogues');
+    
+        // Join tables if provided
+        if (!empty($join)) {
+            foreach ($join as $joinTable) {
+                $query->join(...$joinTable);
             }
-            if(isset($condition['publish'])  && $condition['publish'] != 0){
-                $query->where('publish','=', $condition['publish']);
-            }
-            return $query;
-        })->with('user_catalogues');
-            if(!empty($join)){
-            $query->join(...$join);
-            }
-            return $query->paginate($perpage)->withQueryString()->withPath(env('APP_URL').$extend['path']);
-            }
+        }
+    
+        // Handle pagination and path
+        $path = $extend['path'] ?? url()->current();
+        return $query->paginate($perpage)
+                     ->withQueryString()
+                     ->withPath($path);
+    }
+    
 
     public function findById(int $modelId, array $columns = ["*"], array $relation = [])
     {

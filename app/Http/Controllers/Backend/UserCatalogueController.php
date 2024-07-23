@@ -76,7 +76,7 @@ class UserCatalogueController extends Controller
         $config['seo'] = config('apps.UserCatalogue');
         $template = 'backend.user.catalogue.delete';
         
-        return view('backend.dashboard.layout', compact( 'template','config',  'userCata'));
+        return view('backend.dashboard.layout', compact( 'template','config',  'userCatalogues'));
     }
 
     public function destroy($id){

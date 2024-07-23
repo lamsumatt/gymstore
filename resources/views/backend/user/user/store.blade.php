@@ -61,7 +61,6 @@
                                             (isset ($user->user_catalogue_id)) ? $user->user_catalogue_id : '')? 'selected' :'' }} 
                                             value="{{ $key }}">{{ $item }}</option>
                                             @endforeach
-                                          
                                         </select>
                                     </label>
                                     

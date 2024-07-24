@@ -41,11 +41,16 @@ class LanguageController extends Controller
     }
     public function create()
     {
+        $config = [
+            'js'=> [
+                'backend/plugins/ckfinder_2/ckfinder.js',
+                'backend/library/finder.js'
+            ]
+        ];
         $config['seo'] = config('apps.language');
         $config['method'] = 'create';
         $template = 'backend.language.store';
-        $title = $config['seo']['create']['title']; // Define the title here
-        return view('backend.dashboard.layout', compact('template', 'config', 'title'));
+        return view('backend.dashboard.layout', compact('template', 'config'));
     }
     
     public function store(StoreLanguageRequest $request){

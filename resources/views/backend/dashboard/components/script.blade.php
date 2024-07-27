@@ -12,10 +12,9 @@
 <script src="{{ asset('backend/js/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
 
 {{-- kiểm tra config có tồn tại hay ko --}}
-@if(isset($config['js']) && is_array($config['js']))
+@if (isset($config['js']) && is_array($config['js']))
     @foreach ($config['js'] as $value)
-        {!! '<script src="'.$value.'"></script>' !!}
+        <script src="{{ asset($value) }}"></script>
     @endforeach
 @endif
-
 

@@ -1,4 +1,4 @@
-.error-message{
+.error-message {
     color: red;
     font-size: 12px;
     margin-top: 5px;
@@ -9,100 +9,100 @@ input::placeholder {
     font-size: 13px;
 }
 
-.mb20{
+.mb20 {
     margin-bottom: 20px;
 }
 
-.mt20{
+.mt20 {
     margin-top: 20px;
 }
 
-h5{
+h5 {
     text-transform: uppercase;
     font-weight: normal;
 }
 
-table .image{
-    height: 73px;
+table .image {
+    height: 50px;
     display: block;
 }
 
-.img-cover img{
+.img-cover img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-table strong{
+table strong {
     min-width: 88px;
     display: inline-block;
 }
 
-.table > thead > tr > th, 
-.table > tbody > tr > th, 
-.table > tfoot > tr > th, 
-.table > thead > tr > td, 
-.table > tbody > tr > td, 
-.table > tfoot > tr > td{
+.table > thead > tr > th,
+.table > tbody > tr > th,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > tbody > tr > td,
+.table > tfoot > tr > td {
     vertical-align: middle;
 }
 
-.uk-flex-space-between{
+.uk-flex-space-between {
     justify-content: space-between;
 }
 
-.uk-flex-middle{
+.uk-flex-middle {
     align-items: center;
 }
 
-.uk-flex{
+.uk-flex {
     display: flex;
 }
 
-.filter-wrapper{
+.filter-wrapper {
     margin-bottom: 20px;
 }
-.filter-wrapper .perpage{
+.filter-wrapper .perpage {
     display: inline-block;
 }
 
-.btn{
+.btn {
     margin-bottom: 0 !important;
     font-size: 13px;
     border-radius: 0;
     height: 32px;
 }
 
-.filter-wrapper .form-control{
+.filter-wrapper .form-control {
     height: 32px;
     max-width: 200px;
 }
- .mr10{
+.mr10 {
     margin-right: 10px;
- }
-.mr5{
+}
+.mr5 {
     margin-right: 5px;
 }
 
-.box .ibox{
-    box-shadow: 0 2px 4px rgba(0,0,0,.1);
+.box .ibox {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.mb15{
+.mb15 {
     margin-bottom: 10px;
 }
 
-.control-label{
+.control-label {
     display: block;
 }
 
-.panel-title{
+.panel-title {
     font-size: 20px;
     margin-bottom: 15px;
     font-weight: 700;
     color: #1a1a1a;
 }
-.panel-description{
+.panel-description {
     font-size: 15px;
 }
 
@@ -110,54 +110,88 @@ table strong{
     border-radius: 0 !important;
 }
 
-.select2-container .select2-selection--single
-{
+.select2-container .select2-selection--single {
     height: 32px !important;
-    -webkit-transition: all .2s ease-out;
-    transition: all .2s ease-out;
-    transition-property: color, -webkit-box-shadow;
-    transition-property: box-shadow,color;
-    transition-property: box-shadow,color,-webkit-box-shadow;
-    -webkit-box-shadow: inset 8 1px 80 rgba(63,63,68,.05);
-    box-shadow: inset 8 1px 88rgba(63,63,68,.85);
+    -webkit-transition: all 0.2s ease-out;
+    transition: all 0.2s ease-out;
+    transition-property:
+        color,
+        -webkit-box-shadow;
+    transition-property: box-shadow, color;
+    transition-property:
+        box-shadow,
+        color,
+        -webkit-box-shadow;
+    -webkit-box-shadow: inset 8 1px 80 rgba(63, 63, 68, 0.05);
+    box-shadow: inset 8 1px 88rgba (63, 63, 68, 0.85);
     border: 1px solid #c4cdd5;
     outline: none;
-    background: -webkit-gradient(linear,left top,left bottom,from(#fff),to(#f9fafb));
-    background: linear-gradient(to bottom, #fff,#f9fafb );
+    background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#f9fafb));
+    background: linear-gradient(to bottom, #fff, #f9fafb);
     border: #c4cdd5;
 }
 
-.select2-container--default .select2-selection--single .select2-selection__rendered
-{
+.select2-container--default .select2-selection--single .select2-selection__rendered {
     line-height: 31px !important;
     font-size: 13px !important;
 }
 
-.form-control{
+.form-control {
     height: 31px;
 }
 
-.ml10{
+.ml10 {
     margin-left: 10px;
 }
 
-.active-bg{
+.active-bg {
     background: #ffc !important;
 }
 
-#checkAll, .checkBoxItem{
+#checkAll,
+.checkBoxItem {
     width: 15px;
     height: 15px;
 }
 
-.switchery-small{
+.switchery-small {
     border-radius: 20px;
     height: 20px;
     width: 33px;
 }
 
-.switchery-small>small{
+.switchery-small > small {
     height: 20px;
     width: 20px;
 }
 
+.select2-container--default {
+    margin-right: 10px;
+}
+
+.meta-title {
+    font-size: 20px;
+    color: #1a0dab;
+}
+
+.canonical {
+    color: green;
+    margin-bottom: 8px;
+}
+.meta-description {
+    font-size: 14px;
+}
+
+.seo-wrapper {
+    margin-top: 30px;
+}
+.seo-wrapper textarea {
+    height: 300px !important;
+}
+
+.notice{
+    font-size: 11px;
+    font-style: italic;
+    display: block;
+    margin-bottom: 10px;
+}

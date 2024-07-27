@@ -30,7 +30,7 @@ class LanguageService implements LanguageServiceInterface
     }
 
     private function paginateSelect(){
-        return ['id', 'name', 'publish','canonical'];
+        return ['id', 'name', 'publish','canonical', 'image'];
     }
 
     public function create($request)

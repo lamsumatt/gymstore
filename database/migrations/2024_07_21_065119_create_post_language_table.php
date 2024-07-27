@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('meta_title');
             $table->string('meta_keyword');
             $table->text('meta_description');
+            
         });
     }
 

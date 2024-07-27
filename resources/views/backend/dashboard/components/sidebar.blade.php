@@ -25,17 +25,18 @@
                 </div>
             </li>
             @foreach (config('apps.module.module') as $key => $val)
-                <li class="{{ (in_array($segment, $val['name'])) ? 'active' : '' }}">
-                    <a href="{{ $val['icon'] }}"><i class="{{ $val['icon'] }}"></i> <span class="nav-label">{{ $val['title'] }}</span> <span class="fa arrow"></span></a>
-                    @if(isset($val['subModule']))
+            <li class="{{ in_array($segment, $val['name']) ? 'active' : '' }}">
+                <a href="#"><i class="{{ $val['icon'] }}"></i> <span class="nav-label">{{ $val['title'] }}</span> <span class="fa arrow"></span></a>
+                @if (isset($val['subModule']))
                     <ul class="nav nav-second-level">
                         @foreach ($val['subModule'] as $module)
-                        <li><a href="{{ $module['route'] }}">{{ $module['title'] }}</a></li>
-                        @endforeach                        
+                            <li><a href="{{ url($module['route']) }}">{{ $module['title'] }}</a></li>
+                        @endforeach
                     </ul>
-                    @endif
-                </li>
-            @endforeach
+                @endif
+            </li>
+        @endforeach
+        
         </ul>
 
     </div>

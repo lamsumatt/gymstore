@@ -3,6 +3,21 @@
 return [
     'module'=>[
         [
+            'title' => 'QL Nhóm bài viết',
+            'icon' => 'fa fa-file',
+            'name' => ['post'],
+            'subModule' => [
+                [
+                    'title' => 'QL Nhóm bài viết',
+                    'route' =>  'post/catalogue/index',
+                ],
+                [
+                    'title' => 'QL bài viết',
+                    'route' => 'post/index',
+                ],
+            ]
+        ],
+        [
             'title' => 'QL Nhóm thành viên',
             'icon' => 'fa fa-user',
             'name' => ['user'],
@@ -17,20 +32,6 @@ return [
                 ],
             ]
         ],[
-            'title' => 'QL Nhóm bài viết',
-            'icon' => 'fa fa-file',
-            'name' => ['post'],
-            'subModule' => [
-                [
-                    'title' => 'QL Nhóm bài viết',
-                    'route' =>  'backend/user/catalogue/index',
-                ],
-                [
-                    'title' => 'QL bài viết',
-                    'route' => 'backend/user/index',
-                ],
-            ]
-            ],[
                 'title' => 'Cấu hình chung',
                 'icon' => 'fa fa-file',
                 'name' => ['language'], 

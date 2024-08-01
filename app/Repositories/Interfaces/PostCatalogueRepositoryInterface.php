@@ -17,4 +17,5 @@ interface PostCatalogueRepositoryInterface
                                 array $extend = [], 
                                 int $perpage = 1,
                                 array $relations = []);
+    public function createLanguagePivot($model, array $payload = []);
 }

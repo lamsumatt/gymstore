@@ -52,7 +52,7 @@
                                 <div class="form-row">
                                     <label for="" class="control-label text-left">Ảnh đại diện
                                     </label>
-                                    <input type="text" value="{{ old('image', ($language->image) ?? '') }}" name="image" class="form-control" autocomplete="off" placeholder="" data-type = "Images">
+                                    <input  type="text" value="{{ old('image', ($language->image) ?? '') }}" name="image" class="form-control image img-cover image-target" autocomplete="off" placeholder="" data-type = "Images">
                                 </div>
                                 
                             </div>

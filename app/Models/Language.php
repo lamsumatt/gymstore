@@ -16,6 +16,11 @@ class Language extends Model
         'user_id',
         'image',
     ];
-    protected $table = 'languages';
+
+    public function postCatalogues(){
+        return $this->belongsToMany(PostCatalogue::class,'post_catalogue_languages','post_Catalogue_id','language_id')
+        ->withPivot('name','canonical', 'meta_title', 'meta_keyword','meta_description', 'description', 'content')
+        ->withTimestamps();
+    }
    
 }

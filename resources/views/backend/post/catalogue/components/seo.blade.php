@@ -2,12 +2,10 @@
     <div class="ibox-title"><h5>Cấu hình SEO</h5></div>
     <div class="ibox-content">
         <div class="seo">
-            <div class="meta-title">Học Laravel Framework - Học PHP</div>
-            <div class="canonical">https://hoclaravel.com</div>
+            <div class="meta-title">{{ (old('meta_title')) ?? 'Bạn chưa có tiêu đề SEO' }}</div>
+            <div class="canonical"> {{ (old('canonical')) ? config('app.url').old('canonical').config('apps.general.suffix') : 'https://example.html' }}</div>
             <div class="meta-description">
-                Laravel là một php framework mới, ra đời vào tháng 04/2011.Ngay 
-                khi vừa mới ra mắt thì nó đã được cộng đồng chú ý đến bởi nhiều 
-                đặc điểm và tính năng mới ...
+               {{ (old('meta_description')) ?? 'Mô tả SEO' }} 
             </div>
         </div>
         <div class="seo-wrapper">
@@ -21,7 +19,7 @@
                             </div> 
                         </label>
                         <input type="text" 
-                                value="{{ old('meta_title', ($postCatalogue->meta_title) ?? '') }}" 
+                                value="{{ old('meta_title', ($postCatalogue->meta_title)??'' ) }}" 
                                 name="meta_title" 
                                 class="form-control" 
                                 autocomplete="off" 
@@ -37,7 +35,7 @@
                             <span>Từ khóa SEO</span>
                         </label>
                         <input type="text" 
-                                value="{{ old('meta-keyword', ($postCatalogue->meta_keyword) ?? '') }}" 
+                                value="{{ old('meta-keyword', ($postCatalogue->meta_keyword)??'') }}" 
                                 name="meta-keyword" 
                                 class="form-control" 
                                 autocomplete="off" 
@@ -56,12 +54,11 @@
                             </div> 
                         </label>
                         <textarea type="text" 
-                                value="{{ old('meta-description', ($postCatalogue->meta_description) ?? '') }}" 
                                 name="meta-description" 
                                 class="form-control" 
                                 autocomplete="off" 
                                 placeholder=""
-                            ></textarea>
+                            >{{ old('meta_description', ($postCatalogue->meta_description)??'')}}</textarea>
                     </div>
                 </div>
             </div>
@@ -69,15 +66,19 @@
                 <div class="col-lg-12">
                     <div class="form-row">
                         <label for="" class="control-label text-left">
-                            <span>Đường dẫn</span>
+                            <span>Đường dẫn <span class="text-danger">*</span> </span>
                         </label>
-                        <input type="text" 
-                                value="{{ old('canonical', ($postCatalogue->canonical) ?? '') }}" 
-                                name="canonical" 
-                                class="form-control" 
-                                autocomplete="off" 
-                                placeholder=""
-                            >
+                        <div class="input-wrapper">
+                            <input type="text" 
+                            value="{{ old('canonical', ($postCatalogue->canonical)??'') }}" 
+                            name="canonical" 
+                            class="form-control" 
+                            autocomplete="off" 
+                            placeholder=""
+                        >
+                        <span class="baseUrl">{{ config('app.url') }}</span>
+                        </div>
+                        
                     </div>
                 </div>
             </div>

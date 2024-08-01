@@ -3,16 +3,28 @@
     var ht = {}
 
     ht.setupCkeditor = () => {
-        if ($('.ckeditor').length) {
-            $('.ckeditor').each(function () {
+        if ($('.ck-editor').length) {
+            $('.ck-editor').each(function () {
                 let editor = $(this);
                 let elementId = editor.attr('id');
-                ht.ckeditor5(editor);
+                let elementHeight = editor.attr('data-height');
+                ht.ckeditor4(elementId, elementHeight);
             });
         }
     }
 
-    ht.ckeditor4 = (elementId) => {
+    ht.uploadImageAvatar = () => {
+        $('.image-target').click(function () {
+            let input = $(this)
+            let type = 'Images';
+            ht.browserServerAvatar(input, type);
+        });
+    }
+
+    ht.ckeditor4 = (elementId, elementHeight) => {
+        if (typeof (elementHeight) == 'undefined') {
+            elementHeight = 500;
+        }
         CKEDITOR.replace(elementId, {
             height: 250,
             removeButtons: '',
@@ -52,7 +64,20 @@
         var finder = new CKFinder();
         finder.resourceType = type;
         finder.selectActionFunction = function (fileUrl, data) {
-            object.val('/' + fileUrl);
+            object.val(fileUrl);
+        }
+        finder.popup();
+    }
+
+    ht.browserServerAvatar = (object, type) => {
+        if (typeof (CKFinder) == 'undefined') {
+            type = 'Images';
+        }
+        var finder = new CKFinder();
+        finder.resourceType = type;
+        finder.selectActionFunction = function (fileUrl, data) {
+            object.find('img').attr('src', fileUrl);
+            object.siblings('input').val(fileUrl);
         }
         finder.popup();
     }
@@ -60,6 +85,7 @@
     $(document).ready(function () {
         ht.uploadImageToInput();
         ht.setupCkeditor();
+        ht.uploadImageAvatar();
     });
 
 

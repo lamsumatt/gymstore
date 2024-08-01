@@ -36,7 +36,6 @@
 
                 <div class="text-right">
                     <button class="btn btn-primary mb15" type="submit" name="send">Lưu</button>
-                    {{-- <button class="btn btn-danger" type="reset">Huỷ</button> <button class="btn btn-default" type="button" onclick="window.history.back()"></button> --}}
                 </div>
             </div>
 </form>

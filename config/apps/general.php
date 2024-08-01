@@ -11,5 +11,6 @@ return [
         '1' => 'UnFollow',
         '2' => 'Follow',
     ],
+    'suffix'=> '.html'
  
 ];

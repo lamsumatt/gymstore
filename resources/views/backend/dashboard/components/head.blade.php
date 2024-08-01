@@ -1,6 +1,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<base href="{{ env('APP_URL') }}">
+<base href="{{ config('app.url') }}">
 
 <title>INSPINIA | Dashboard v.2</title>
 <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -18,7 +18,8 @@
 
 
 <script>
-    var domain = '{{ env('APP_URL') }}';
+    var domain = '{{ config('app.url') }}';
+    var SUFFIX = '{{ config('apps.general.suffix') }}';
 </script>
 
 <link href="{{ asset('backend/css/style.css') }}" rel="stylesheet">

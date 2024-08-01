@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Repositories\Interfaces\BaseRepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Language;
 
 class BaseRepository implements BaseRepositoryInterface
 {
@@ -73,6 +74,14 @@ class BaseRepository implements BaseRepositoryInterface
     public function findById(int $modelId, array $columns = ["*"], array $relation = [])
     {
         return $this->model->select($columns)->with($relation)->findOrFail($modelId);
+    }
+
+    public function updateByWhereIn(string $whereInField = '', array $whereIn = [], array $payload = []){
+            return $this->model->whereIn($whereInField, $whereIn)->update($payload);
+        }
+    
+    public function createLanguagePivot($model, array $payload = []){
+        return $model->languages()->attach($model->id ,$payload);
     }
 }
 

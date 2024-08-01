@@ -3,20 +3,29 @@
 namespace App\Services;
 
 use App\Services\Interfaces\PostCatalogueServiceInterface;
-use App\Repositories\Interfaces\PostCatalogueRepositoryInterface as PostCatalogueRepository;
+use App\Services\BaseService;
+use App\Repositories\BaseRepository;
+use App\Repositories\PostCatalogueRepository;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use App\Classes\Nestedsetbie;
 use Exception;
 
 
-class PostCatalogueService implements PostCatalogueServiceInterface
+class PostCatalogueService extends BaseService implements PostCatalogueServiceInterface
 {
     protected $postCatalogueRepository;
+    protected $nestedset;
 
     public function __construct(PostCatalogueRepository $postCatalogueRepository)
     {
         $this->postCatalogueRepository = $postCatalogueRepository;
+        $this->nestedset = new Nestedsetbie([
+            'table' => 'post_catalogues',
+            'foreign_key' => 'post_catalogue_id',
+            'language_id' => $this->currentLanguage(),
+        ]);
     }
 
     public function paginate( $request)
@@ -29,17 +38,31 @@ class PostCatalogueService implements PostCatalogueServiceInterface
         return $PostCatalogues;
     }
 
-    private function paginateSelect(){
-        return ['id', 'name', 'publish','canonical', 'image'];
-    }
 
     public function create($request)
     {
         DB::beginTransaction();
         try {
-            $payload = $request->except('_token', 'send');
+            $payload = $request->only($this->payload());
             $payload['user_id'] = Auth::id();    
-            $this->postCatalogueRepository->create($payload);
+            $PostCatalogue = $this->postCatalogueRepository->create($payload);
+            if( $PostCatalogue -> id >0){
+                $payloadLanguage = $request->only($this->payloadlanguage());
+                $payloadLanguage['language_id'] = $this->currentLanguage();
+                $payloadLanguage['language_id'] = $this->currentLanguage();
+                $payloadLanguage['post_catalogue_id'] = $PostCatalogue -> id;
+                $language = $this->postCatalogueRepository
+                ->createLanguagePivot($PostCatalogue, $payloadLanguage);
+            }
+            $this->nestedset->Get('level ASC, order ASC');
+            $this->nestedset->Recursive(0, $this->nestedset->Set());
+            $this->nestedset->Action(); 
+            
+
+
+
+
+
             DB::commit();
             return true;
         } catch (Exception $e) {
@@ -78,60 +101,16 @@ class PostCatalogueService implements PostCatalogueServiceInterface
         }
     }
 
-    // change user catalogue status
-    // public function updateStatus($post = []){
-    //     DB::beginTransaction();
-    //     try {
-    //         $payload[$post['field']] = (($post['value'] == 1) ? 2 : 1);
-    //         $PostCatalogues =  $this->postCatalogueRepository->update($post['modelId'], $payload);
-    //         $this->changeUserStatus($post, $payload[$post['field']]);
+    
+    private function paginateSelect(){
+        return ['id', 'name', 'publish','canonical', 'image'];
+    }
+    
+    private function payload(){
+        return ['parent_id', 'follow', 'publish', 'image'];
+    }
 
-    //         DB::commit();
-    //         return true;
-    //     } catch (Exception $e) {
-    //         DB::rollBack();
-    //         Log::error('User update failed: ' . $e->getMessage());
-    //         return false;
-    //     }
-    // }
-
-    // public function updateStatusAll($post){
-    //     DB::beginTransaction();
-    //     try {
-    //         $payload[$post['field']] =$post['value'] ;
-    //         $flag =  $this->postCatalogueRepository->updateByWhereIn('id', $post['id'], $payload);
-    //         $this->changeUserStatus($post, $post['value']);
-
-
-    //         DB::commit();
-    //         return true;
-    //     } catch (Exception $e) {
-    //         DB::rollBack();
-    //         Log::error('User update failed: ' . $e->getMessage());
-    //         return false;
-    //     }
-    // }
-
-    // private function changeUserStatus($post, $value){
-    //     DB::beginTransaction();
-    //     try {
-    //         $array = [];
-    //         if(isset($post['modelId']) ){
-    //             $array[] = $post['modelId'];
-    //         }else{
-    //             $array = $post['id'];
-    //         }
-    //         $payload[$post['field']] = $value;
-    //         $this -> userRepository->updateByWhereIn('catalogue_id', $array, $payload);
-
-    //         DB::commit();
-    //         return true;
-    //     } catch (Exception $e) {
-    //         DB::rollBack();
-    //         Log::error('User update failed: ' . $e->getMessage());
-    //         return false;
-    //     }
-    // }
-
-    // end change
+    private function payloadlanguage(){
+        return ['name', 'description', 'content', 'meta_title', 'meta_keyword', 'meta_description', 'canonical'];
+    }
 }

@@ -10,7 +10,7 @@
 <script src="{{ asset('backend/js/inspinia.js') }}"></script>
 <script src="{{ asset('backend/js/plugins/pace/pace.min.js') }}"></script>
 <script src="{{ asset('backend/js/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
-
+{{-- <script src="https://cdn.ckeditor.com/4.21.1/standard/ckeditor.js"></script> --}}
 {{-- kiểm tra config có tồn tại hay ko --}}
 @if (isset($config['js']) && is_array($config['js']))
     @foreach ($config['js'] as $value)

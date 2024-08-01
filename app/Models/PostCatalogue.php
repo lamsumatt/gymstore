@@ -22,5 +22,10 @@ class PostCatalogue extends Model
         'order',
         'user_id'
     ];
-    protected $table = 'languages';
+    // protected $table = 'post_catalogues';
+    public function languages(){
+        return $this->belongsToMany(Language::class,'post_catalogue_languages','post_Catalogue_id','language_id')
+        ->withPivot('name','canonical', 'meta_title', 'meta_keyword','meta_description', 'description', 'content')
+        ->withTimestamps();
+    }
 }

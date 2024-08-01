@@ -51,13 +51,13 @@ Route::group(['prefix' => 'language'], function () {
 });
 
 Route::group(['prefix' => 'post/catalogue'], function () {
-    Route::get('index', [PostCatalogueController::class, 'index'])->name('post.catalogue.index')->middleware([AuthenticateMiddleware::class]);
-    Route::get('create', [PostCatalogueController::class, 'create'])->name('post.catalogue.create')->middleware([AuthenticateMiddleware::class]);
-    Route::post('store', [PostCatalogueController::class, 'store'])->name('post.catalogue.store')->middleware([AuthenticateMiddleware::class]);
-    Route::get('{id}/edit', [PostCatalogueController::class, 'edit'])->name('post.catalogue.edit')->where('id', '[0-9]+')->middleware([AuthenticateMiddleware::class]);
-    Route::post('{id}/update', [PostCatalogueController::class, 'update'])->name('post.catalogue.update')->where('id', '[0-9]+')->middleware([AuthenticateMiddleware::class]);
-    Route::get('{id}/delete', [PostCatalogueController::class, 'delete'])->name('post.catalogue.delete')->where('id', '[0-9]+')->middleware([AuthenticateMiddleware::class]);
-    Route::delete('{id}/destroy', [PostCatalogueController::class, 'destroy'])->name('post.catalogue.destroy')->where('id', '[0-9]+')->middleware([AuthenticateMiddleware::class]);
+    Route::get('index', [PostCatalogueController::class, 'index'])->name('post.catalogue.index');
+    Route::get('create', [PostCatalogueController::class, 'create'])->name('post.catalogue.create');
+    Route::post('store', [PostCatalogueController::class, 'store'])->name('post.catalogue.store');
+    Route::get('{id}/edit', [PostCatalogueController::class, 'edit'])->name('post.catalogue.edit')->where('id', '[0-9]+');
+    Route::post('{id}/update', [PostCatalogueController::class, 'update'])->name('post.catalogue.update')->where('id', '[0-9]+');
+    Route::get('{id}/delete', [PostCatalogueController::class, 'delete'])->name('post.catalogue.delete')->where('id', '[0-9]+');
+    Route::delete('{id}/destroy', [PostCatalogueController::class, 'destroy'])->name('post.catalogue.destroy')->where('id', '[0-9]+');
 });
 // AJAX
 Route::get('ajax/location/getLocation', [LocationController::class, 'getLocation'])->middleware([AuthenticateMiddleware::class])->name('api.location');

@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Repositories\BaseRepository;
+
 use App\Services\Interfaces\UserServiceInterface;
 use App\Repositories\Interfaces\UserRepositoryInterface as UserRepository;
 use Illuminate\Support\Facades\DB;

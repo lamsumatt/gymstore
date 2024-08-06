@@ -7,17 +7,23 @@ use App\Services\PostCatalogueService as PostCatalogueService;
 use Illuminate\Http\Request;
 use App\Http\Requests\StorePostCatalogueRequest;
 use App\Http\Requests\UpdatePostCatalogueRequest;
-use App\Repositories\Interfaces\PostCatalogueRepositoryInterface as PostCatalogueRepository;
-
+use App\Repositories\PostCatalogueRepository;
+use App\Classes\Nestedsetbie;
 class PostCatalogueController extends Controller
 {
     protected $postCatalogueService;
     protected $postCatalogueRepository;
+    protected $nestedset;
 
     public function __construct(PostCatalogueService $postCatalogueService, PostCatalogueRepository $postCatalogueRepository)
     {
         $this->postCatalogueService = $postCatalogueService;
         $this->postCatalogueRepository = $postCatalogueRepository;
+        $this->nestedset = new Nestedsetbie([
+            'table' => 'post_catalogues',
+            'foreign_key' => 'post_catalogue_id',
+            'language_id' => 1,
+        ]);
     }
 
     public function index(Request $request)
@@ -44,6 +50,7 @@ class PostCatalogueController extends Controller
         $config = $this->configData();
         $config['seo'] = config('apps.postcatalogue');
         $config['method'] = 'create';
+        $dropdown = $this->nestedset->dropdown();
         $template = 'backend.post.catalogue.store';
         return view('backend.dashboard.layout', compact('template', 'config'));
     }

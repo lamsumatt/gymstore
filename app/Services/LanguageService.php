@@ -38,7 +38,8 @@ class LanguageService implements LanguageServiceInterface
         DB::beginTransaction();
         try {
             $payload = $request->except('_token', 'send');
-            $payload['user_id'] = Auth::id();    
+            $payload['user_id'] = Auth::id();  
+              
             $this->LanguageRepository->create($payload);
             DB::commit();
             return true;

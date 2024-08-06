@@ -8,9 +8,9 @@
                         <span class="text-danger notice">Chọn root nếu không có danh mục cha</span>
                     </label>
                     <select class="form-control setupSelect2" name="parent_id" id="">
-                        <option value="0">Chọn danh mục cha</option>
-                        <option value="1">Root</option>
-                        <option value="2">..</option>
+                        @foreach ($dropdown as $key => $val )
+                        <option value="{{ $key }}">{{ $val }}</option>
+                        @endforeach
                     </select>
 
                 </div>

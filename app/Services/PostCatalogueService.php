@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Services\Interfaces\PostCatalogueServiceInterface;
 use App\Services\BaseService;
-use App\Repositories\BaseRepository;
 use App\Repositories\PostCatalogueRepository;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -33,8 +32,17 @@ class PostCatalogueService extends BaseService implements PostCatalogueServiceIn
         $condition['keyword'] = addslashes($request->input('keyword'));
         $condition['publish'] = $request->integer('publish');
         $perpage = $request->integer('perpage');
-        $PostCatalogues = $this->postCatalogueRepository->pagination($this->paginateSelect(), $condition, 
-                                                            [], ['path' => 'PostCatalogue/index'], $perpage, []);
+        $PostCatalogues = $this->postCatalogueRepository->
+        pagination($this->paginateSelect(), 
+                            $condition, 
+                            ['post_catalogue_languages as tb2', 'tb2.post_catalogue_id', '=' ,'post_catalogue.id', ],
+                            ['path' => 'PostCatalogue/index'], 
+                            $perpage, 
+                            [], 
+                            [
+                                ['post_catalogue.lft', 'post_catalogue.created_at'],
+                                ['asc', 'desc']
+                            ]);
         return $PostCatalogues;
     }
 
@@ -46,6 +54,7 @@ class PostCatalogueService extends BaseService implements PostCatalogueServiceIn
             $payload = $request->only($this->payload());
             $payload['user_id'] = Auth::id();    
             $PostCatalogue = $this->postCatalogueRepository->create($payload);
+            // dd($PostCatalogue);
             if( $PostCatalogue -> id >0){
                 $payloadLanguage = $request->only($this->payloadlanguage());
                 $payloadLanguage['language_id'] = $this->currentLanguage();
@@ -58,9 +67,6 @@ class PostCatalogueService extends BaseService implements PostCatalogueServiceIn
             $this->nestedset->Recursive(0, $this->nestedset->Set());
             $this->nestedset->Action(); 
             
-
-
-
 
 
             DB::commit();
@@ -78,7 +84,6 @@ class PostCatalogueService extends BaseService implements PostCatalogueServiceIn
         try {
             $payload = $request->except('_token', 'send');           
             $this->postCatalogueRepository->update($id, $payload);
-
             DB::commit();
             return true;
         } catch (Exception $e) {
@@ -103,7 +108,14 @@ class PostCatalogueService extends BaseService implements PostCatalogueServiceIn
 
     
     private function paginateSelect(){
-        return ['id', 'name', 'publish','canonical', 'image'];
+        return ['post_catalogues.id', 
+                'tb2.name', 
+                'post_catalogues.publish',
+                'tb2.canonical', 
+                'post_catalogues.image', 
+                'post_catalogues.level',
+                'post_catalogues.order',
+            ];
     }
     
     private function payload(){

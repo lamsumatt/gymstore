@@ -42,7 +42,8 @@ class BaseRepository implements BaseRepositoryInterface
         array $join=[], 
         array $extend = [],
         int $perpage = 1,
-        array $relations = []
+        array $relations = [],
+        array $orderBy = []
         ){
         $query = $this->model->select($column)->where(function($query) use ($condition){
             if(isset($condition['keyword']) && !empty($condition['keyword'])){
@@ -60,8 +61,10 @@ class BaseRepository implements BaseRepositoryInterface
             }
         }
 
-            if(!empty($join)){
-            $query->join(...$join);
+            if(!empty($join) && is_array($join) && count($join) > 0){
+                foreach($join as $key => $val){
+                    $query->join($val[0], $val[1], $val[2], $val[3]);
+                }
             }
             return $query->paginate($perpage)->withQueryString()->withPath(env('APP_URL').$extend['path']);
             }
@@ -82,6 +85,7 @@ class BaseRepository implements BaseRepositoryInterface
     
     public function createLanguagePivot($model, array $payload = []){
         return $model->languages()->attach($model->id ,$payload);
+        dd($model->languages);
     }
 }
 

@@ -55,7 +55,7 @@ class UserCatalogueService implements UserCatalogueServiceInterface
         DB::beginTransaction();
         try {
             $payload = $request->except('_token', 'send');           
-            $this->userCatalogueRepository->update($id, $payload);
+            $user = $this->userCatalogueRepository->update($id, $payload);
 
             DB::commit();
             return true;

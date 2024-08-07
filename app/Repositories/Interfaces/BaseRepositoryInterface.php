@@ -15,6 +15,8 @@ interface BaseRepositoryInterface
                                 array $join = [], 
                                 array $extend = [], 
                                 int $perpage = 1,
-                                array $relations = []);
+                                array $relations = [],
+                                array $orderBy = []
+                            );
     public function createLanguagePivot($model, array $payload = []);
 }

@@ -11,7 +11,7 @@ class UpdatePostCatalogueRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,16 @@ class UpdatePostCatalogueRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required',
+            'canonical' => 'required|unique:post_catalogue_language,canonical,'.$this->id. 'post_catalogue_id',
+
+        ];
+    }
+    public function messages(): array{
+        return [
+            'email.required' => 'Vui lòng nhập vào ô tiêu đề',
+            'canonical.required'=> 'Bạn chưa nhập vào ô đường dẫn',
+            'canonical.unque'=> 'Đường dẫn đã tồn tại',
         ];
     }
 }

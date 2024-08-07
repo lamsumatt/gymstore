@@ -1,11 +1,11 @@
 <div class="ibox">
     <div class="ibox-title"><h5>Cấu hình SEO</h5></div>
     <div class="ibox-content">
-        <div class="seo">
-            <div class="meta-title">{{ (old('meta_title')) ?? 'Bạn chưa có tiêu đề SEO' }}</div>
-            <div class="canonical"> {{ (old('canonical')) ? config('app.url').old('canonical').config('apps.general.suffix') : 'https://example.html' }}</div>
+        <div class="seo-container">
+            <div class="meta-title">{{ (old('meta_title', ($postCatalogue->meta_title)??'' )) ?? 'Bạn chưa có tiêu đề SEO' }}</div>
+            <div class="canonical"> {{ (old('canonical', ($postCatalogue->canonical)??'' )) ? config('app.url').old('canonical', ($postCatalogue->canonical)?? '').config('apps.general.suffix') : 'https://example.html' }}</div>
             <div class="meta-description">
-               {{ (old('meta_description')) ?? 'Mô tả SEO' }} 
+               {{ (old('meta_description',($postCatalogue->meta_description)?? '')) ?? 'Mô tả SEO' }} 
             </div>
         </div>
         <div class="seo-wrapper">
@@ -35,7 +35,7 @@
                             <span>Từ khóa SEO</span>
                         </label>
                         <input type="text" 
-                                value="{{ old('meta-keyword', ($postCatalogue->meta_keyword)??'') }}" 
+                                value="{{ old('meta-keyword', ($postCatalogue->meta_keyword)?? '')}}" 
                                 name="meta-keyword" 
                                 class="form-control" 
                                 autocomplete="off" 

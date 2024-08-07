@@ -43,15 +43,23 @@ class BaseRepository implements BaseRepositoryInterface
         array $extend = [],
         int $perpage = 1,
         array $relations = [],
-        array $orderBy = []
+        array $orderBy = ['id', 'DESC']
         ){
         $query = $this->model->select($column)->where(function($query) use ($condition){
             if(isset($condition['keyword']) && !empty($condition['keyword'])){
                 $query->where('name','like','%'.$condition['keyword'].'%');
             }
+
             if(isset($condition['publish'])  && $condition['publish'] != 0){
                 $query->where('publish','=', $condition['publish']);
             }
+
+            if(isset($condition['where']) && count($condition['where'])){
+                foreach($condition['where'] as $key => $val){
+                    $query->where($val[0], $val[1], $val[2]);
+                }
+            }
+
             return $query;
         });
 
@@ -61,13 +69,18 @@ class BaseRepository implements BaseRepositoryInterface
             }
         }
 
-            if(!empty($join) && is_array($join) && count($join) > 0){
-                foreach($join as $key => $val){
-                    $query->join($val[0], $val[1], $val[2], $val[3]);
-                }
+        if(isset($join) && is_array($join) && count($join)){
+            foreach($join as $key => $val){
+                $query->join($val[0], $val[1], $val[2], $val[3]);
             }
-            return $query->paginate($perpage)->withQueryString()->withPath(env('APP_URL').$extend['path']);
-            }
+        }
+
+        if(isset($orderBy) && !empty($orderBy)){
+            $query->orderBy($orderBy[0], $orderBy[1]);
+        }
+        
+        return $query->paginate($perpage)->withQueryString()->withPath(env('APP_URL').$extend['path']);
+    }
     
     public function all()
     {

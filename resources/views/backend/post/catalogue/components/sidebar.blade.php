@@ -8,11 +8,15 @@
                         <span class="text-danger notice">Chọn root nếu không có danh mục cha</span>
                     </label>
                     <select class="form-control setupSelect2" name="parent_id" id="">
-                        @foreach ($dropdown as $key => $val )
-                        <option value="{{ $key }}">{{ $val }}</option>
-                        @endforeach
+                        @if(is_array($dropdown) || is_object($dropdown))
+                            @foreach ($dropdown as $key => $val)
+                                <option {{ $key == old('parent_id', 
+                                    (isset ($postCatalogue->publish)) ? $postCatalogue->parent_id : '')? 'selected' :'' }} value="{{ $key }}">{{ $val }}</option>
+                            @endforeach
+                        @else
+                            <option value="">No options available</option>
+                        @endif
                     </select>
-
                 </div>
 
             </div>
@@ -28,7 +32,7 @@
         <div class="row ">
             <div class="col-lg-12">
                 <div class="form-row">
-                    <span class="image img-cover image-target"><img src="{{ old('image') ?? asset('backend/img/not-found.jpg') }}"
+                    <span class="image img-cover image-target"><img src="{{ (old('image', ($postCatalogue->image) ?? '')) ? old('image', ($postCatalogue->image) ?? '') : asset('backend/img/not-found.jpg') }}"
                             alt=""></span>
                     <input type="hidden" name="image" value="{{ old('image', ($postCatalogue->image) ?? '') }}">
                 </div>

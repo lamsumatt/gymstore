@@ -7,6 +7,7 @@ use App\Services\PostCatalogueService as PostCatalogueService;
 use Illuminate\Http\Request;
 use App\Http\Requests\StorePostCatalogueRequest;
 use App\Http\Requests\UpdatePostCatalogueRequest;
+use App\Http\Requests\DeletePostCatalogueRequest;
 use App\Repositories\PostCatalogueRepository;
 use App\Classes\Nestedsetbie;
 class PostCatalogueController extends Controller
@@ -14,6 +15,7 @@ class PostCatalogueController extends Controller
     protected $postCatalogueService;
     protected $postCatalogueRepository;
     protected $nestedset;
+    protected $language;
 
     public function __construct(PostCatalogueService $postCatalogueService, PostCatalogueRepository $postCatalogueRepository)
     {
@@ -24,6 +26,7 @@ class PostCatalogueController extends Controller
             'foreign_key' => 'post_catalogue_id',
             'language_id' => 1,
         ]);
+        $this->language = $this->currentLanguage();
     }
 
     public function index(Request $request)
@@ -50,9 +53,9 @@ class PostCatalogueController extends Controller
         $config = $this->configData();
         $config['seo'] = config('apps.postcatalogue');
         $config['method'] = 'create';
-        $dropdown = $this->nestedset->dropdown();
+        $dropdown = $this->nestedset->Dropdown();
         $template = 'backend.post.catalogue.store';
-        return view('backend.dashboard.layout', compact('template', 'config'));
+        return view('backend.dashboard.layout', compact('template', 'config', 'dropdown'));
     }
     
     public function store(StorePostCatalogueRequest $request){
@@ -63,13 +66,13 @@ class PostCatalogueController extends Controller
     }
 
     public function edit($id){
-        $postCatalogues = $this->postCatalogueRepository->findById($id);
+        $postCatalogue = $this->postCatalogueRepository->getPostCatalogueById($id, $this->language);
         $config = $this->configData();
         $config['seo'] = config('apps.postcatalogue');
         $config['method'] = 'edit';
         $template = 'backend.post.catalogue.store';
         $title = $config['seo']['create']['title']; // Define the title here
-        return view('backend.dashboard.layout', compact('template', 'config',  'postCatalogues'));
+        return view('backend.dashboard.layout', compact('template', 'config',  'postCatalogue'));
 
     }
     
@@ -81,14 +84,14 @@ class PostCatalogueController extends Controller
     }
 
     public function delete($id){
-        $postCatalogue = $this->postCatalogueRepository->findById($id);
+        $postCatalogue = $this->postCatalogueRepository->getPostCatalogueById($id, $this->language);
         $config['seo'] = config('apps.postcatalogue');
         $template = 'backend.post.catalogue.delete';
         
         return view('backend.dashboard.layout', compact( 'template','config',  'postCatalogue'));
     }
 
-    public function destroy($id){
+    public function destroy($id, DeletePostCatalogueRequest $request){
         if($this->postCatalogueService->destroy($id)){
             return redirect()->route('post.catalogue.index')->with('success', 'Xóa người dùng thành công');
         }
